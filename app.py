@@ -4,6 +4,7 @@ from PIL import Image
 import os
 import uuid
 import time
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -25,9 +26,12 @@ def generate_qr():
 
     img = qr.make_image(fill_color="black", back_color="white")
     
-    # Generar un nombre de archivo único con el formato QR-Code_
-    unique_id = uuid.uuid4().hex
-    filename = f'QR-Code_{unique_id}.png'
+    # Obtener la fecha actual y formatearla como día-mes-año
+    fecha_creacion = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
+    
+    # Generar un identificador único basado en la fecha y un UUID
+    unique_id = f"{fecha_creacion}_{uuid.uuid4().hex[:4]}"
+    filename = f'QR-Code-{unique_id}.png'
     
     # Asegurarse de que la carpeta 'static/qr-result' exista
     if not os.path.exists('static/qr-result'):
